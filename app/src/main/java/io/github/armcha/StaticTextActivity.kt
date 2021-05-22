@@ -9,26 +9,30 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import io.github.armcha.autolink.*
-import kotlinx.android.synthetic.main.activity_static_text.*
+import io.github.armcha.databinding.ActivityStaticTextBinding
 
 class StaticTextActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityStaticTextBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_static_text)
 
         val custom = MODE_CUSTOM("\\sAndroid\\b", "\\smobile\\b")
+        val autoLinkTextView = binding.autoLinkTextView
         autoLinkTextView.addAutoLinkMode(
-                MODE_HASHTAG,
-                MODE_EMAIL,
-                MODE_URL,
-                MODE_PHONE,
-                custom,
-                MODE_MENTION)
+            MODE_HASHTAG,
+            MODE_EMAIL,
+            MODE_URL,
+            MODE_PHONE,
+            custom,
+            MODE_MENTION
+        )
 
         autoLinkTextView.addUrlTransformations(
-                "https://en.wikipedia.org/wiki/Wear_OS" to "Wear OS",
-                "https://en.wikipedia.org/wiki/Fire_OS" to "FIRE")
+            "https://en.wikipedia.org/wiki/Wear_OS" to "Wear OS",
+            "https://en.wikipedia.org/wiki/Fire_OS" to "FIRE"
+        )
 
         autoLinkTextView.attachUrlProcessor {
             when {

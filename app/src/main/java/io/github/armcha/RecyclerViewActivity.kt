@@ -8,22 +8,22 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.text.style.UnderlineSpan
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import io.github.armcha.autolink.*
-import kotlinx.android.synthetic.main.activity_recycler_view.*
-import kotlinx.android.synthetic.main.recycler_item.view.*
+import io.github.armcha.databinding.ActivityRecyclerViewBinding
+import io.github.armcha.databinding.RecyclerItemBinding
 
 
 class RecyclerViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityRecyclerViewBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_recycler_view)
 
-        recyclerView.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        binding.recyclerView.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
                 val view = layoutInflater.inflate(R.layout.recycler_item, parent, false)
@@ -34,23 +34,25 @@ class RecyclerViewActivity : AppCompatActivity() {
 
             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-                val autoLinkTextView = holder.itemView.autoLinkTextView
+                val autoLinkTextView = RecyclerItemBinding.bind(holder.itemView).autoLinkTextView
                 val context = holder.itemView.context
                 val custom = MODE_CUSTOM("\\sAndroid\\b")
 
                 autoLinkTextView.addAutoLinkMode(
-                        MODE_HASHTAG,
-                        MODE_URL,
-                        MODE_PHONE,
-                        MODE_EMAIL,
-                        custom,
-                        MODE_MENTION)
+                    MODE_HASHTAG,
+                    MODE_URL,
+                    MODE_PHONE,
+                    MODE_EMAIL,
+                    custom,
+                    MODE_MENTION
+                )
 
                 autoLinkTextView.addUrlTransformations(
-                        "https://google.com" to "Google",
-                        "https://en.wikipedia.org/wiki/Cyberpunk_2077" to "Cyberpunk",
-                        "https://en.wikipedia.org/wiki/Fire_OS" to "FIRE",
-                        "https://en.wikipedia.org/wiki/Wear_OS" to "Wear OS")
+                    "https://google.com" to "Google",
+                    "https://en.wikipedia.org/wiki/Cyberpunk_2077" to "Cyberpunk",
+                    "https://en.wikipedia.org/wiki/Fire_OS" to "FIRE",
+                    "https://en.wikipedia.org/wiki/Wear_OS" to "Wear OS"
+                )
 
                 autoLinkTextView.addSpan(MODE_URL, StyleSpan(Typeface.BOLD_ITALIC), UnderlineSpan())
                 autoLinkTextView.addSpan(custom, StyleSpan(Typeface.BOLD))
